@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Westfield on Ullswater · Lakeland Cottage, Watermillock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Public+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --slate:#25333a;
+    --slate-deep:#1a2429;
+    --lake:#4e7a8c;
+    --moss:#5f6f47;
+    --stone:#efe9dc;
+    --amber:#bd7a3c;
+    --off-white:#faf8f3;
+    --line: rgba(37,51,58,0.14);
+    --max: 1180px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--off-white);
+    color:var(--slate-deep);
+    font-family:'Public Sans', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  a{color:inherit;}
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em; line-height:1.08;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--amber);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--amber); display:inline-block;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 6vw;}
+
+  /* contour signature texture */
+  .contours{position:absolute; inset:0; pointer-events:none; opacity:0.5;}
+  .contours svg{width:100%; height:100%;}
+
+  /* header */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.4rem 6vw;
+    mix-blend-mode:difference;
+    color:#fff;
+  }
+  header .mark{
+    font-family:'Fraunces', serif; font-size:1.05rem; letter-spacing:0.02em;
+  }
+  header nav{display:flex; gap:2rem; font-size:0.85rem;}
+  header nav a{text-decoration:none; opacity:0.85; transition:opacity .2s;}
+  header nav a:hover{opacity:1;}
+  header nav a:focus-visible, a:focus-visible, button:focus-visible{
+    outline:2px solid var(--amber); outline-offset:3px;
+  }
+  @media (max-width:720px){ header nav{display:none;} }
+
+  /* hero */
+  .hero{
+    position:relative;
+    height:100svh;
+    min-height:560px;
+    overflow:hidden;
+    color:#fff;
+    display:flex;
+    align-items:flex-end;
+  }
+  .hero img{
+    position:absolute; inset:0;
+    filter:saturate(0.92) brightness(0.62);
+    animation:heroIn 1.6s ease-out;
+  }
+  @keyframes heroIn{ from{transform:scale(1.08); opacity:0;} to{transform:scale(1); opacity:1;} }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(26,36,41,0.15) 0%, rgba(26,36,41,0.05) 35%, rgba(26,36,41,0.85) 100%);
+  }
+  .hero-content{position:relative; z-index:2; padding:0 6vw 4.5rem; width:100%;}
+  .hero-content .eyebrow{color:var(--stone); margin-bottom:1.1rem;}
+  .hero-content .eyebrow::before{background:var(--stone);}
+  .hero h1{
+    font-size:clamp(2.6rem, 6.5vw, 5.2rem);
+    max-width:14ch;
+    font-weight:400;
+  }
+  .hero h1 em{font-style:italic; color:var(--stone); font-weight:300;}
+  .hero-sub{
+    max-width:44ch; margin-top:1.2rem; font-size:1.05rem; color:rgba(255,255,255,0.82);
+    font-weight:300;
+  }
+  .hero-facts{
+    display:flex; gap:2.2rem; margin-top:2.4rem; flex-wrap:wrap;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.05em;
+    text-transform:uppercase; color:var(--stone);
+  }
+  .hero-facts span strong{display:block; font-family:'Fraunces', serif; font-size:1.5rem; color:#fff; letter-spacing:0; text-transform:none; font-weight:400;}
+
+  .scroll-cue{
+    position:absolute; bottom:1.6rem; right:6vw; z-index:2;
+    writing-mode:vertical-rl; color:rgba(255,255,255,0.6);
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.14em;
+    display:flex; align-items:center; gap:0.6rem;
+  }
+  .scroll-cue::after{content:""; width:1px; height:40px; background:rgba(255,255,255,0.4);}
+
+  /* highlights band */
+  .highlights{
+    background:var(--slate-deep); color:var(--stone);
+    padding:3.6rem 0; position:relative; overflow:hidden;
+  }
+  .highlights .wrap{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:2.5rem;
+    position:relative; z-index:1;
+  }
+  @media (max-width:820px){ .highlights .wrap{grid-template-columns:1fr;} }
+  .h-item{border-left:1px solid rgba(239,233,220,0.25); padding-left:1.4rem;}
+  .h-item h3{font-size:1.25rem; color:#fff; margin-bottom:0.5rem; font-weight:400;}
+  .h-item p{font-size:0.92rem; color:rgba(239,233,220,0.72); font-weight:300;}
+
+  /* about / narrative */
+  .about{padding:7rem 0 5rem; position:relative;}
+  .about .grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:5vw; align-items:start;}
+  @media (max-width:900px){ .about .grid{grid-template-columns:1fr; gap:2.5rem;} }
+  .about h2{font-size:clamp(2rem,4vw,3rem); font-weight:400; margin:0.7rem 0 1.6rem;}
+  .about p{color:#3c4a51; max-width:60ch; margin-bottom:1.1rem; font-weight:300; font-size:1.02rem;}
+  .about-figure{position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:2px;}
+  .about-figure .contours{opacity:0.9; mix-blend-mode:soft-light;}
+
+  /* rooms section w/ topographic divider */
+  .divider{position:relative; height:120px; overflow:hidden; background:var(--stone);}
+
+  .rooms{background:var(--stone); padding:5rem 0 6rem;}
+  .rooms-head{display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; margin-bottom:3rem; flex-wrap:wrap;}
+  .rooms-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem); font-weight:400;}
+  .room-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1.4rem;}
+  @media (max-width:860px){ .room-grid{grid-template-columns:1fr;} }
+  .room-card{
+    background:var(--off-white); border:1px solid var(--line); padding:1.9rem 1.7rem;
+    display:flex; flex-direction:column; gap:0.7rem;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .room-card:hover{transform:translateY(-4px); box-shadow:0 18px 34px -22px rgba(26,36,41,0.35);}
+  .room-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--amber); letter-spacing:0.08em;}
+  .room-card h3{font-size:1.3rem; font-weight:400;}
+  .room-card p{font-size:0.9rem; color:#57646b; font-weight:300;}
+
+  /* gallery */
+  .gallery{padding:5.5rem 0; background:var(--off-white);}
+  .gallery-head{margin-bottom:2.4rem;}
+  .gallery-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem); font-weight:400; margin-top:0.6rem;}
+  .g-grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    grid-auto-rows:14vw;
+    gap:0.6rem;
+  }
+  @media (max-width:820px){ .g-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:38vw;} }
+  .g-item{overflow:hidden; position:relative;}
+  .g-item img{transition:transform .6s ease;}
+  .g-item:hover img{transform:scale(1.06);}
+  .g-item.a{grid-column:span 4; grid-row:span 2;}
+  .g-item.b{grid-column:span 2; grid-row:span 1;}
+  .g-item.c{grid-column:span 2; grid-row:span 1;}
+  .g-item.d{grid-column:span 3; grid-row:span 1;}
+  .g-item.e{grid-column:span 3; grid-row:span 1;}
+  @media (max-width:820px){ .g-item.a,.g-item.b,.g-item.c,.g-item.d,.g-item.e{grid-column:span 1; grid-row:span 1;} }
+
+  /* amenities */
+  .amenities{background:var(--slate); color:var(--stone); padding:6rem 0;}
+  .amenities .wrap > .eyebrow{color:var(--stone);}
+  .amenities .wrap > .eyebrow::before{background:var(--stone);}
+  .amenities h2{font-size:clamp(1.9rem,3.4vw,2.6rem); font-weight:400; margin:0.6rem 0 3rem; max-width:16ch;}
+  .amen-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    border-top:1px solid rgba(239,233,220,0.18);
+  }
+  @media (max-width:820px){ .amen-grid{grid-template-columns:repeat(2,1fr);} }
+  .amen-item{
+    padding:1.4rem 1.4rem 1.4rem 0;
+    border-bottom:1px solid rgba(239,233,220,0.18);
+    border-right:1px solid rgba(239,233,220,0.18);
+    padding-left:1.4rem;
+    font-size:0.95rem; font-weight:300;
+    display:flex; align-items:center; min-height:76px;
+  }
+
+  /* location / setting */
+  .setting{padding:6.5rem 0; position:relative; overflow:hidden;}
+  .setting .grid{display:grid; grid-template-columns:1fr 1fr; gap:4vw; align-items:center;}
+  @media (max-width:900px){ .setting .grid{grid-template-columns:1fr;} }
+  .setting h2{font-size:clamp(1.9rem,3.4vw,2.6rem); font-weight:400; margin:0.7rem 0 1.4rem;}
+  .setting p{color:#3c4a51; font-weight:300; margin-bottom:1rem; max-width:52ch;}
+  .setting-figure{aspect-ratio:1/1; position:relative; overflow:hidden;}
+
+  /* host */
+  .host{background:var(--stone); padding:5rem 0;}
+  .host .card{
+    display:flex; gap:2rem; align-items:center; background:var(--off-white);
+    border:1px solid var(--line); padding:2.4rem; max-width:720px;
+  }
+  @media (max-width:600px){ .host .card{flex-direction:column; text-align:center;} }
+  .host .photo{width:96px; height:96px; border-radius:50%; overflow:hidden; flex-shrink:0;}
+  .host h3{font-size:1.3rem; font-weight:500; margin-bottom:0.3rem;}
+  .host p{font-size:0.92rem; color:#57646b; font-weight:300;}
+
+  /* CTA */
+  .cta{
+    background:var(--slate-deep); color:#fff; padding:6.5rem 0; text-align:center;
+    position:relative; overflow:hidden;
+  }
+  .cta h2{font-size:clamp(2.2rem,5vw,3.6rem); font-weight:400; max-width:16ch; margin:0.8rem auto 1.6rem;}
+  .cta p{color:rgba(250,248,243,0.72); max-width:42ch; margin:0 auto 2.4rem; font-weight:300;}
+  .btn{
+    display:inline-flex; align-items:center; gap:0.6rem;
+    background:var(--amber); color:#fff; text-decoration:none;
+    padding:1rem 2.1rem; font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase;
+    transition:background .25s ease, transform .25s ease;
+  }
+  .btn:hover{background:#a8672f; transform:translateY(-2px);}
+
+  footer{
+    background:var(--slate-deep); color:rgba(250,248,243,0.5);
+    padding:2rem 0 2.5rem; font-size:0.8rem; text-align:center;
+    border-top:1px solid rgba(239,233,220,0.1);
+  }
+  footer a{text-decoration:underline; text-underline-offset:3px;}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mark">Westfield</div>
+  <nav>
+    <a href="#about">The Cottage</a>
+    <a href="#rooms">Rooms</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#setting">Ullswater</a>
+    <a href="#book">Check Dates</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/f45b9e97-97cb-4b47-8a6d-7183d4f8bd8b.jpeg" alt="Westfield cottage terrace overlooking Ullswater">
+  <div class="hero-content">
+    <div class="eyebrow">Watermillock · Lake District National Park</div>
+    <h1>A stone cottage<br><em>tucked above Ullswater.</em></h1>
+    <p class="hero-sub">Westfield sits in the quiet hamlet of Bennett Head, footpaths at the door and a private hot tub on the terrace — a peaceful base for exploring the fells.</p>
+    <div class="hero-facts">
+      <span><strong>6</strong>Guests</span>
+      <span><strong>3</strong>Bedrooms</span>
+      <span><strong>2</strong>Bathrooms</span>
+      <span><strong>1</strong>Hot Tub</span>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
+
+<section class="highlights">
+  <div class="wrap">
+    <div class="h-item reveal">
+      <h3>Inside the National Park</h3>
+      <p>Set within Lake District National Park, with local footpaths leading straight out to the fells — Helvellyn and Glenridding are close by.</p>
+    </div>
+    <div class="h-item reveal">
+      <h3>A private hot tub</h3>
+      <p>One of the few places in the area with one. Sit out on the terrace after a day on the water and watch the light change over the fells.</p>
+    </div>
+    <div class="h-item reveal">
+      <h3>Close to the lake</h3>
+      <p>Sailing, paddleboarding, kayaking, or the Ullswater Steamer — the lake is a short trip away, with the Brackenrigg Inn and Another Place nearby.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap grid">
+    <div class="reveal">
+      <div class="eyebrow">About the cottage</div>
+      <h2>A traditional Lakeland home, built for slowing down.</h2>
+      <p>Westfield is a traditional Lakeland stone cottage offering comfortable, well-equipped accommodation for up to six guests. Three bedrooms, two bathrooms, a separate living room and a spacious kitchen and dining area give families and groups of friends plenty of room to relax together.</p>
+      <p>The living room opens toward the outdoor terrace — a relaxed spot for evenings in after a day exploring. The kitchen opens into the dining area, creating a sociable space to gather, cook and plan the next day's adventure.</p>
+      <p>Set within a traditional Lakeland hamlet, Westfield keeps its mature planting, stone walls and characterful stone-and-slate architecture — a peaceful, practical base with the charm of an older cottage intact. The layout is arranged predominantly over one level, with three steps between the kitchen/dining area and two of the bedrooms; guests are encouraged to check the photographs before booking.</p>
+    </div>
+    <div class="about-figure reveal">
+      <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/d9273e8c-4478-4e76-84a9-88b5f45e96e8.jpeg" alt="Interior of Westfield cottage">
+    </div>
+  </div>
+</section>
+
+<section class="rooms" id="rooms">
+  <div class="wrap">
+    <div class="rooms-head reveal">
+      <div>
+        <div class="eyebrow">Where you'll sleep</div>
+        <h2>Three bedrooms, six beds' worth of quiet.</h2>
+      </div>
+    </div>
+    <div class="room-grid">
+      <div class="room-card reveal">
+        <div class="room-num">Bedroom 01</div>
+        <h3>The private room</h3>
+        <p>1 king bed. Set apart from the other two bedrooms for a quieter, more private space.</p>
+      </div>
+      <div class="room-card reveal">
+        <div class="room-num">Bedroom 02</div>
+        <h3>The twin room</h3>
+        <p>2 single beds. Reached via a short flight of steps from the kitchen and dining area.</p>
+      </div>
+      <div class="room-card reveal">
+        <div class="room-num">Bedroom 03</div>
+        <h3>The double room</h3>
+        <p>1 double bed, situated alongside Bedroom 02 on the same side of the cottage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="gallery-head reveal">
+      <div class="eyebrow">A closer look</div>
+      <h2>Gallery</h2>
+    </div>
+    <div class="g-grid">
+      <div class="g-item a reveal"><img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/3862bfcf-801b-4b9f-ac77-28fc8647021f.jpeg" alt="Westfield cottage view"></div>
+      <div class="g-item b reveal"><img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/16cf67eb-1aa8-4d08-83ae-8b7cd78089ea.jpeg" alt="Westfield cottage interior detail"></div>
+      <div class="g-item c reveal"><img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/5490f578-3a6b-42a4-9b8f-0bd4e2c29263.jpeg" alt="Westfield cottage view two"></div>
+      <div class="g-item d reveal"><img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/f45b9e97-97cb-4b47-8a6d-7183d4f8bd8b.jpeg" alt="Westfield cottage terrace"></div>
+      <div class="g-item e reveal"><img src="https://a0.muscache.com/im/pictures/hosting/Hosting-1745057860347843089/original/d9273e8c-4478-4e76-84a9-88b5f45e96e8.jpeg" alt="Westfield cottage interior"></div>
+    </div>
+  </div>
+</section>
+
+<section class="amenities">
+  <div class="wrap">
+    <div class="eyebrow reveal">What's included</div>
+    <h2 class="reveal">Everything you need, self-catering and easy.</h2>
+    <div class="amen-grid">
+      <div class="amen-item reveal">Fully equipped kitchen</div>
+      <div class="amen-item reveal">Wifi throughout</div>
+      <div class="amen-item reveal">Free private parking</div>
+      <div class="amen-item reveal">Private hot tub, year-round*</div>
+      <div class="amen-item reveal">HDTV — Netflix, Disney+, Prime</div>
+      <div class="amen-item reveal">Separate living room</div>
+      <div class="amen-item reveal">Covered outdoor seating</div>
+      <div class="amen-item reveal">EV charge point*</div>
+      <div class="amen-item reveal">Private dining terrace</div>
+      <div class="amen-item reveal">Carbon monoxide alarm</div>
+      <div class="amen-item reveal">Smoke alarm</div>
+      <div class="amen-item reveal">Exterior security cameras</div>
+    </div>
+    <p style="font-size:0.8rem; color:rgba(239,233,220,0.55); margin-top:1.6rem; font-weight:300;">*Hot tub and EV charging available on request for an extra charge — message ahead of your stay to confirm.</p>
+  </div>
+</section>
+
+<section class="setting" id="setting">
+  <div class="wrap grid">
+    <div class="setting-figure reveal">
+      <img src="https://cdn.pixabay.com/photo/2017/04/02/21/26/ullswater-2196957_1280.jpg" alt="Panoramic view of Ullswater and the surrounding fells">
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Bennett Head, Watermillock</div>
+      <h2>Ullswater, a short trip from your door.</h2>
+      <p>Step straight onto local footpaths and explore the stunning fells, with Helvellyn and Glenridding both close by. Sail, paddleboard or kayak on the lake, or take an Ullswater Steamer along the water.</p>
+      <p>For food and drink, the Brackenrigg Inn and Another Place are a short trip away — a comfortable base for adventure by day and relaxation by evening.</p>
+    </div>
+  </div>
+</section>
+
+<section class="host">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="margin-bottom:1.6rem;">Meet your host</div>
+    <div class="card reveal">
+      <div class="photo"><img src="https://a0.muscache.com/im/pictures/user/49a1db54-8309-4d4c-ac5c-76594a565661.jpg" alt="James, host of Westfield"></div>
+      <div>
+        <h3>James</h3>
+        <p>Local to the area, currently working away. Loving to travel, meeting people, and enjoying new places and experiences. Responds within a few hours — 100% response rate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="book">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">Check-in from 15:00 · Up to 6 guests</div>
+    <h2>Ready to spend a few days by the lake?</h2>
+    <p>Check live availability and exact pricing for your dates on Airbnb.</p>
+    <a class="btn" href="https://www.airbnb.co.uk/rooms/1745057860347843089" target="_blank" rel="noopener">Check Dates on Airbnb →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Westfield on Ullswater · Bennett Head, Watermillock, Cumbria &nbsp;·&nbsp;
+    <a href="https://www.airbnb.co.uk/rooms/1745057860347843089" target="_blank" rel="noopener">View & book on Airbnb</a>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
