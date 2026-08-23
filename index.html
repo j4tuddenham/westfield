@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a2429">
 <title>Westfield | Holiday Cottage on Ullswater, Watermillock, Cumbria</title>
 <meta name="description" content="Stay at Westfield, a beautiful holiday cottage nestled on the hills surrounding Ullswater on the Ullswater Way in Cumbria, sleeping six guests. Explore the Lake District, local walks and attractions from your comfortable self-catering base.">
 <meta name="robots" content="index, follow">
@@ -106,12 +107,32 @@
     text-decoration:none;
   }
   header nav{display:flex; gap:2rem; font-size:0.85rem;}
-  header nav a{color:var(--gold); text-decoration:none; opacity:0.85; transition:opacity .2s;}
+  header nav a{color:var(--gold); text-decoration:none; opacity:0.85; transition:opacity .2s; padding:0.3rem 0;}
   header nav a:hover{opacity:1;}
   header nav a:focus-visible, a:focus-visible, button:focus-visible{
     outline:2px solid var(--gold); outline-offset:3px;
   }
-  @media (max-width:720px){ header nav{display:none;} }
+  .nav-toggle{
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; background:none; border:none; cursor:pointer;
+  }
+  .nav-toggle span{display:block; width:24px; height:2px; background:var(--gold); transition:transform .25s ease, opacity .25s ease;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  @media (max-width:720px){
+    .nav-toggle{display:flex;}
+    header nav{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0.2rem;
+      background:var(--slate-deep);
+      padding:0.6rem 6vw 1.4rem;
+      border-bottom:1px solid rgba(212,175,55,0.18);
+    }
+    header nav.open{display:flex;}
+    header nav a{padding:0.7rem 0; font-size:0.95rem;}
+  }
 
   .hero{
     position:relative;
@@ -291,7 +312,10 @@
 
 <header>
   <a href="#" class="mark">Westfield</a>
-  <nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="siteNav">
     <a href="#about">The Cottage</a>
     <a href="#rooms">Bedrooms</a>
     <a href="#amenities">Facilities</a>
@@ -521,6 +545,21 @@
   window.addEventListener('scroll', updateHeroFade, {passive:true});
   window.addEventListener('resize', updateHeroFade);
   updateHeroFade();
+
+  const navToggle = document.getElementById('navToggle');
+  const siteNav = document.getElementById('siteNav');
+  if(navToggle && siteNav){
+    navToggle.addEventListener('click', ()=>{
+      const isOpen = siteNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    siteNav.querySelectorAll('a').forEach(link=>{
+      link.addEventListener('click', ()=>{
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 </script>
 
 </body>
