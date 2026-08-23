@@ -100,7 +100,6 @@
     border-bottom:1px solid rgba(212,175,55,0.18);
     box-shadow:0 8px 24px -18px rgba(0,0,0,0.6);
   }
-  header .header-left{display:flex; align-items:center; gap:0.9rem;}
   header .mark{
     font-family:'Fraunces', serif; font-weight:500; font-size:1.6rem; letter-spacing:0.04em;
     color:var(--gold);
@@ -114,27 +113,7 @@
     outline:2px solid var(--gold); outline-offset:3px;
   }
   @media (max-width:1000px) and (min-width:861px){ header nav{gap:1.2rem; font-size:0.78rem;} }
-  .nav-toggle{
-    display:flex; flex-direction:column; justify-content:center; gap:5px;
-    width:44px; height:44px; padding:0; background:none; border:none; cursor:pointer;
-  }
-  .nav-toggle span{display:block; width:24px; height:2px; background:var(--gold); transition:transform .25s ease, opacity .25s ease;}
-  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
-  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-  @media (max-width:860px){
-    header nav{
-      display:none;
-      position:absolute; top:100%; left:0; right:0;
-      flex-direction:column; gap:0.2rem;
-      background:var(--slate-deep);
-      padding:0.6rem 6vw 1.4rem;
-      border-bottom:1px solid rgba(212,175,55,0.18);
-      z-index:60;
-    }
-    header nav.open{display:flex;}
-    header nav a{padding:0.7rem 0; font-size:0.95rem; white-space:normal;}
-  }
+  @media (max-width:860px){ header nav{display:none;} }
 
   .hero{
     position:relative;
@@ -315,12 +294,7 @@
 <body>
 
 <header>
-  <div class="header-left">
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-      <span></span><span></span><span></span>
-    </button>
-    <a href="#" class="mark">Westfield</a>
-  </div>
+  <a href="#" class="mark">Westfield</a>
   <nav id="siteNav">
     <a href="#about">The Cottage</a>
     <a href="#rooms">Bedrooms</a>
@@ -550,34 +524,6 @@
   window.addEventListener('scroll', updateHeroFade, {passive:true});
   window.addEventListener('resize', updateHeroFade);
   updateHeroFade();
-
-  const navToggle = document.getElementById('navToggle');
-  const siteNav = document.getElementById('siteNav');
-  if(navToggle && siteNav){
-    navToggle.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      const isOpen = siteNav.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-    siteNav.querySelectorAll('a').forEach(link=>{
-      link.addEventListener('click', ()=>{
-        siteNav.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-    document.addEventListener('click', (e)=>{
-      if(siteNav.classList.contains('open') && !siteNav.contains(e.target) && !navToggle.contains(e.target)){
-        siteNav.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape' && siteNav.classList.contains('open')){
-        siteNav.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
 </script>
 
 </body>
