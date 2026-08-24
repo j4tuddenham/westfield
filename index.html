@@ -664,11 +664,26 @@
     });
   }
 
+  // Paste your Google Apps Script Web App URL here once deployed
+  // (see setup instructions — Extensions > Apps Script > Deploy > Web app).
+  const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxMnABvzZoL22w2mbKTwQmEQ0ub0-7M9tz32rbsC3YnjOsU9DjAzUNoOpWj1p8Wmjm_/exec';
+
   if(newsletterForm){
     newsletterForm.addEventListener('submit', (e)=>{
       e.preventDefault();
-      // NOTE: this needs a real form backend (e.g. Mailchimp, Formspree) to
-      // actually capture and store submitted email addresses.
+      const email = newsletterForm.querySelector('input[type="email"]').value;
+
+      if(GOOGLE_SHEET_ENDPOINT && GOOGLE_SHEET_ENDPOINT.indexOf('PASTE_YOUR') === -1){
+        // no-cors: Apps Script doesn't return CORS headers, so the response
+        // is opaque — we can't read it, but the row is appended regardless.
+        fetch(GOOGLE_SHEET_ENDPOINT, {
+          method:'POST',
+          mode:'no-cors',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({email:email})
+        }).catch(()=>{ /* network errors ignored — see note above */ });
+      }
+
       newsletterBox.classList.add('is-submitted');
       setTimeout(()=>{
         newsletterDismissed = true;
