@@ -124,14 +124,22 @@
     display:flex;
     align-items:flex-end;
   }
-  .hero img{
-    position:absolute; inset:0; z-index:0;
+  .hero-media{position:absolute; inset:0; z-index:0; overflow:hidden;}
+  .hero-img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover;
     filter:saturate(0.95) brightness(0.8);
-    animation:heroIn 1.6s ease-out;
+    transform:scale(1);
+    opacity:0;
+    transition:opacity 1.8s ease;
   }
-  @keyframes heroIn{ from{transform:scale(1.08); opacity:0;} to{transform:scale(1); opacity:1;} }
+  .hero-img-a{opacity:1; z-index:1;}
+  .hero-img-b{z-index:2;}
+  .hero-img-b.is-visible{opacity:1;}
+  .hero-img.is-zooming{animation:heroZoom 6.4s ease-out forwards;}
+  @keyframes heroZoom{ from{transform:scale(1);} to{transform:scale(1.14);} }
   .hero-scrim{
-    position:absolute; inset:0; z-index:1;
+    position:absolute; inset:0; z-index:3;
     background:var(--slate-deep);
     opacity:0;
     pointer-events:none;
@@ -139,10 +147,10 @@
   }
   .hero::after{
     content:"";
-    position:absolute; inset:0; z-index:1;
+    position:absolute; inset:0; z-index:3;
     background:linear-gradient(180deg, rgba(26,36,41,0.15) 0%, rgba(26,36,41,0.05) 35%, rgba(26,36,41,0.85) 100%);
   }
-  .hero-content{position:relative; z-index:2; padding:0 6vw 4.5rem; width:100%;}
+  .hero-content{position:relative; z-index:4; padding:0 6vw 4.5rem; width:100%;}
   .hero-content .eyebrow{color:var(--stone); margin-bottom:1.1rem;}
   .hero-content .eyebrow::before{background:var(--stone);}
   .hero h1{
@@ -163,7 +171,7 @@
   .hero-facts span strong{display:block; font-family:'Fraunces', serif; font-size:1.5rem; color:#fff; letter-spacing:0; text-transform:none; font-weight:400;}
 
   .scroll-cue{
-    position:absolute; bottom:1.6rem; right:6vw; z-index:2;
+    position:absolute; bottom:1.6rem; right:6vw; z-index:4;
     writing-mode:vertical-rl; color:rgba(255,255,255,0.6);
     font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.14em;
     display:flex; align-items:center; gap:0.6rem;
@@ -306,7 +314,10 @@
 </header>
 
 <section class="hero">
-  <img src="images/logo.JPG" alt="Westfield holiday cottage terrace near Ullswater in Watermillock" fetchpriority="high" loading="eager" decoding="async">
+  <div class="hero-media">
+    <img class="hero-img hero-img-a" src="images/logo.JPG" alt="Westfield holiday cottage terrace near Ullswater in Watermillock" fetchpriority="high" loading="eager" decoding="async">
+    <img class="hero-img hero-img-b" src="images/ullswater_panoramic.jpg" alt="Panoramic view of Ullswater and the Lake District fells near Watermillock" loading="eager" decoding="async">
+  </div>
   <div class="hero-scrim"></div>
   <div class="hero-content">
     <div class="eyebrow">Watermillock · Lake District National Park</div>
@@ -524,6 +535,53 @@
   window.addEventListener('scroll', updateHeroFade, {passive:true});
   window.addEventListener('resize', updateHeroFade);
   updateHeroFade();
+
+  const heroImgA = document.querySelector('.hero-img-a');
+  const heroImgB = document.querySelector('.hero-img-b');
+  let heroTimers = [];
+
+  function clearHeroTimers(){
+    heroTimers.forEach(t => clearTimeout(t));
+    heroTimers = [];
+  }
+
+  function playHeroSequence(){
+    if(!heroImgA || !heroImgB) return;
+    clearHeroTimers();
+
+    // reset both images to their starting state
+    heroImgB.classList.remove('is-visible', 'is-zooming');
+    heroImgA.classList.remove('is-zooming');
+    void heroImgA.offsetWidth; // force reflow so the animation can restart
+    void heroImgB.offsetWidth;
+
+    const ZOOM_MS = 6400;
+
+    // phase 1: image A zooms in
+    heroImgA.classList.add('is-zooming');
+
+    // phase 2: crossfade + image B begins its own zoom
+    heroTimers.push(setTimeout(()=>{
+      heroImgB.classList.add('is-visible', 'is-zooming');
+    }, ZOOM_MS));
+  }
+
+  playHeroSequence();
+
+  if(heroEl){
+    let hasLeftHero = false;
+    const heroReplayObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting){
+          hasLeftHero = true;
+        } else if(hasLeftHero){
+          hasLeftHero = false;
+          playHeroSequence();
+        }
+      });
+    }, {threshold:0.6});
+    heroReplayObserver.observe(heroEl);
+  }
 </script>
 
 </body>
