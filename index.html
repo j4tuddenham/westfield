@@ -131,12 +131,12 @@
     filter:saturate(0.95) brightness(0.8);
     transform:scale(1);
     opacity:0;
-    transition:opacity 0.8s ease;
+    transition:opacity 1.5s ease;
   }
   .hero-img-a{opacity:1; z-index:1;}
   .hero-img-b{z-index:2;}
   .hero-img-b.is-visible{opacity:1;}
-  .hero-img.is-zooming{animation:heroZoom 4.5s ease-out forwards;}
+  .hero-img.is-zooming{animation:heroZoom 2s ease-out forwards;}
   @keyframes heroZoom{ from{transform:scale(1);} to{transform:scale(1.1);} }
   .hero-scrim{
     position:absolute; inset:0; z-index:3;
