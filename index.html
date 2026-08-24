@@ -296,6 +296,66 @@
   }
   footer a{text-decoration:underline; text-underline-offset:3px;}
 
+  .privacy-note{
+    background:var(--slate-deep);
+    border-top:1px solid rgba(239,233,220,0.08);
+    padding:1rem 6vw 1.8rem;
+    text-align:center;
+  }
+  .privacy-note p{
+    max-width:640px; margin:0 auto;
+    font-size:0.7rem; line-height:1.6;
+    color:rgba(239,233,220,0.4);
+    font-weight:300;
+  }
+  .privacy-note a{color:rgba(239,233,220,0.55); text-decoration:underline; text-underline-offset:2px;}
+  .privacy-note button.privacy-unsub-trigger{
+    background:none; border:none; padding:0; margin:0; cursor:pointer;
+    font:inherit; color:rgba(239,233,220,0.55);
+    text-decoration:underline; text-underline-offset:2px;
+  }
+
+  .modal-overlay{
+    position:fixed; inset:0; z-index:90;
+    background:rgba(20,26,29,0.7);
+    display:none; align-items:center; justify-content:center;
+    padding:1.5rem;
+  }
+  .modal-overlay.is-open{display:flex;}
+  .modal-box{
+    position:relative; width:min(360px, 100%);
+    background:var(--slate-deep); color:var(--stone);
+    border:1px solid rgba(212,175,55,0.25);
+    box-shadow:0 25px 60px -20px rgba(0,0,0,0.6);
+    padding:1.9rem 1.7rem 1.7rem;
+  }
+  .modal-close{
+    position:absolute; top:0.7rem; right:0.8rem;
+    background:none; border:none; cursor:pointer;
+    color:var(--stone); opacity:0.7;
+    font-size:1.3rem; line-height:1; padding:0.3rem;
+    transition:opacity .2s ease;
+  }
+  .modal-close:hover{opacity:1;}
+  .modal-box h3{font-size:1.1rem; font-weight:500; margin-bottom:0.5rem; color:#fff;}
+  .modal-box p{font-size:0.85rem; color:rgba(239,233,220,0.75); font-weight:300; margin-bottom:1.1rem;}
+  .modal-form{display:flex; flex-direction:column; gap:0.7rem;}
+  .modal-form input[type="email"]{
+    width:100%; padding:0.7rem 0.9rem;
+    background:var(--off-white); border:1px solid rgba(212,175,55,0.3);
+    color:var(--slate-deep); font-family:'Public Sans', sans-serif; font-size:0.9rem;
+  }
+  .modal-form input[type="email"]:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  .modal-form button[type="submit"]{
+    background:var(--gold); color:var(--slate-deep); border:none; cursor:pointer;
+    padding:0.7rem 1rem; font-family:'IBM Plex Mono', monospace; font-size:0.75rem;
+    letter-spacing:0.06em; text-transform:uppercase; transition:background .2s ease;
+  }
+  .modal-form button[type="submit"]:hover{background:#e0b64a;}
+  .modal-success{font-size:0.9rem; color:var(--gold); font-weight:400; display:none;}
+  .modal-box.is-submitted .modal-form{display:none;}
+  .modal-box.is-submitted .modal-success{display:block;}
+
   .newsletter-box{
     position:fixed; right:1.5rem; bottom:1.5rem; z-index:80;
     width:min(320px, calc(100vw - 3rem));
@@ -560,6 +620,23 @@
   </div>
 </footer>
 
+<div class="privacy-note">
+  <p>When you submit your email address above, it's stored securely and used only to send you occasional updates and offers about Westfield. It is not shared with or sold to third parties. You can <button type="button" class="privacy-unsub-trigger" id="unsubTrigger">unsubscribe</button> at any time.</p>
+</div>
+
+<div class="modal-overlay" id="unsubOverlay">
+  <div class="modal-box" id="unsubBox">
+    <button class="modal-close" id="unsubClose" aria-label="Close">&times;</button>
+    <h3>Unsubscribe</h3>
+    <p>Enter the email address you'd like removed from Westfield updates and offers.</p>
+    <form class="modal-form" id="unsubForm">
+      <input type="email" name="email" placeholder="Your email address" required aria-label="Email address">
+      <button type="submit">Unsubscribe</button>
+    </form>
+    <p class="modal-success">You've been unsubscribed.</p>
+  </div>
+</div>
+
 <div class="newsletter-box" id="newsletterBox">
   <button class="newsletter-close" id="newsletterClose" aria-label="Close">&times;</button>
   <div class="eyebrow">Stay in touch</div>
@@ -680,7 +757,7 @@
           method:'POST',
           mode:'no-cors',
           headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({email:email})
+          body: JSON.stringify({action:'subscribe', email:email})
         }).catch(()=>{ /* network errors ignored — see note above */ });
       }
 
@@ -689,6 +766,50 @@
         newsletterDismissed = true;
         newsletterBox.classList.remove('is-visible');
       }, 2600);
+    });
+  }
+
+  const unsubTrigger = document.getElementById('unsubTrigger');
+  const unsubOverlay = document.getElementById('unsubOverlay');
+  const unsubClose = document.getElementById('unsubClose');
+  const unsubForm = document.getElementById('unsubForm');
+  const unsubBox = document.getElementById('unsubBox');
+
+  if(unsubTrigger && unsubOverlay){
+    unsubTrigger.addEventListener('click', ()=>{
+      unsubOverlay.classList.add('is-open');
+    });
+  }
+  if(unsubClose && unsubOverlay){
+    unsubClose.addEventListener('click', ()=>{
+      unsubOverlay.classList.remove('is-open');
+    });
+  }
+  if(unsubOverlay){
+    unsubOverlay.addEventListener('click', (e)=>{
+      if(e.target === unsubOverlay) unsubOverlay.classList.remove('is-open');
+    });
+  }
+  if(unsubForm){
+    unsubForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const email = unsubForm.querySelector('input[type="email"]').value;
+
+      if(GOOGLE_SHEET_ENDPOINT && GOOGLE_SHEET_ENDPOINT.indexOf('PASTE_YOUR') === -1){
+        fetch(GOOGLE_SHEET_ENDPOINT, {
+          method:'POST',
+          mode:'no-cors',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({action:'unsubscribe', email:email})
+        }).catch(()=>{ /* network errors ignored — see note above */ });
+      }
+
+      unsubBox.classList.add('is-submitted');
+      setTimeout(()=>{
+        unsubOverlay.classList.remove('is-open');
+        unsubBox.classList.remove('is-submitted');
+        unsubForm.reset();
+      }, 2200);
     });
   }
 </script>
