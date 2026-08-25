@@ -219,7 +219,7 @@
   .room-card p{font-size:0.9rem; color:#57646b; font-weight:300;}
 
   .gallery{padding:5.5rem 0; background:var(--off-white);}
-  .gallery-head{margin-bottom:2.4rem;}
+  .gallery-head{margin-bottom:2.4rem; display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
   .gallery-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem); font-weight:400; margin-top:0.6rem;}
   .g-grid{
     display:grid;
@@ -510,8 +510,17 @@
 <section class="gallery" id="gallery">
   <div class="wrap">
     <div class="gallery-head reveal">
-      <div class="eyebrow">A closer look</div>
-      <h2>Gallery</h2>
+      <div>
+        <div class="eyebrow">A closer look</div>
+        <h2>Gallery</h2>
+      </div>
+      <a href="https://www.instagram.com/westfieldonullswater/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener" class="footer-social" aria-label="Westfield on Instagram">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+          <circle cx="12" cy="12" r="4.6"/>
+          <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
     </div>
     <div class="g-grid">
       <div class="g-item a reveal"><img src="images/ullswater_panoramic.jpg" alt="Westfield holiday cottage in Watermillock, near Ullswater" loading="lazy" decoding="async"></div>
