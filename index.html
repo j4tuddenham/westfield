@@ -8,7 +8,6 @@
 <meta name="description" content="Stay at Westfield, a beautiful holiday cottage nestled on the hills surrounding Ullswater on the Ullswater Way in Cumbria, sleeping six guests. Explore the Lake District, local walks and attractions from your comfortable self-catering base.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.staywestfield.uk/">
-<meta name="description" content="Westfield | Your Exclusive Lake District Retreat">
 <meta property="og:title" content="Westfield, a Holiday Cottage on Ullswater · Watermillock">
 <meta property="og:description" content="3-bedroom holiday cottage near Ullswater in Watermillock, Cumbria, sleeping 6 guests with a private hot tub.">
 <meta property="og:type" content="website">
@@ -297,6 +296,16 @@
     border-top:1px solid rgba(239,233,220,0.1);
   }
   footer a{text-decoration:underline; text-underline-offset:3px;}
+  .footer-inner{
+    display:flex; align-items:center; justify-content:center; gap:1rem;
+    flex-wrap:wrap;
+  }
+  .footer-social{
+    color:var(--gold); opacity:0.75; text-decoration:none;
+    display:inline-flex; align-items:center; justify-content:center;
+    transition:opacity .2s ease;
+  }
+  .footer-social:hover{opacity:1;}
 
   .privacy-note{
     background:var(--slate-deep);
@@ -616,9 +625,16 @@
 </section>
 
 <footer>
-  <div class="wrap">
-    Westfield, a Holiday Cottage on Ullswater · Bennett Head, Watermillock, Cumbria &nbsp;·&nbsp;
-    <a href="https://airbnb.co.uk/h/westfield-on-ullswater" target="_blank" rel="noopener">View & book on Airbnb</a>
+  <div class="wrap footer-inner">
+    <span>Westfield, a Holiday Cottage on Ullswater · Bennett Head, Watermillock, Cumbria &nbsp;·&nbsp;
+    <a href="https://airbnb.co.uk/h/westfield-on-ullswater" target="_blank" rel="noopener">View & book on Airbnb</a></span>
+    <a href="https://www.instagram.com/westfieldonullswater/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener" class="footer-social" aria-label="Westfield on Instagram">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+        <circle cx="12" cy="12" r="4.6"/>
+        <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
   </div>
 </footer>
 
