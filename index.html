@@ -366,6 +366,11 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.9rem;
     flex-wrap:wrap;
   }
+  .footer-check-availability{
+    color:var(--gold); text-decoration:underline; text-underline-offset:3px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
+    letter-spacing:0.06em; text-transform:uppercase;
+  }
   .footer-social{
     color:var(--gold); opacity:0.75; text-decoration:none;
     display:inline-flex; align-items:center; justify-content:center; gap:0.6rem;
@@ -832,7 +837,7 @@
       <a href="#amenities">Facilities</a>
       <a href="#things-to-do">Things to Do</a>
       <a href="#setting">Ullswater</a>
-      <a href="#book">Check Dates</a>
+      <a href="#" class="open-availability">Check Dates</a>
     </nav>
     <a href="https://wa.me/447554334030?text=Hi%20I%20would%20like%20to%20connect%20regarding%20Westfield%20On%20Ullswater" target="_blank" rel="noopener" class="header-whatsapp" aria-label="Message us on WhatsApp">
       <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -856,12 +861,12 @@
     <a href="#amenities">Facilities</a>
     <a href="#things-to-do">Things to Do</a>
     <a href="#setting">Ullswater</a>
-    <a href="#book">Check Dates</a>
+    <a href="#" class="open-availability">Check Dates</a>
   </nav>
   <div class="mobile-menu-footer">
     <a href="https://wa.me/447554334030?text=Hi%20I%20would%20like%20to%20connect%20regarding%20Westfield%20On%20Ullswater" target="_blank" rel="noopener">Chat on WhatsApp</a>
     <a href="https://www.instagram.com/westfieldonullswater/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener">Follow us on Instagram</a>
-    <a href="https://airbnb.co.uk/h/westfield-on-ullswater" target="_blank" rel="noopener">View &amp; book on Airbnb</a>
+    <a href="#" class="open-availability">Check Availability</a>
   </div>
 </div>
 
@@ -1068,15 +1073,15 @@
   <div class="wrap">
     <div class="eyebrow" style="justify-content:center;">Check-in from 15:00 · Up to 6 guests</div>
     <h2>Book your Ullswater holiday cottage stay.</h2>
-    <p>Check live availability and exact pricing for your dates on Airbnb.</p>
-    <a class="btn" href="https://airbnb.co.uk/h/westfield-on-ullswater" target="_blank" rel="noopener">Check Dates on Airbnb →</a>
+    <p>Check live availability for your dates right here on the page.</p>
+    <a class="btn open-availability" href="#">Check Availability →</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap footer-inner">
-    <span>Westfield, a Holiday Cottage on Ullswater · Bennett Head, Watermillock, Cumbria &nbsp;·&nbsp;
-    <a href="https://airbnb.co.uk/h/westfield-on-ullswater" target="_blank" rel="noopener">View & book on Airbnb</a></span>
+    <span>Westfield, a Holiday Cottage on Ullswater · Bennett Head, Watermillock, Cumbria</span>
+    <a href="#" class="open-availability footer-check-availability">Check Availability</a>
     <a href="https://www.instagram.com/westfieldonullswater/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener" class="footer-social" aria-label="Follow Westfield on Instagram">
       <span class="footer-social-label">Follow us on Instagram</span>
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -1132,7 +1137,7 @@
   </span></a>
 
 <div class="mobile-book-bar">
-  <a href="#book">Check Dates</a>
+  <a href="#" class="open-availability">Check Dates</a>
 </div>
 
 <button type="button" class="availability-tab" id="availabilityTab" aria-expanded="false" aria-controls="availabilityPanel">Availability</button>
@@ -1185,6 +1190,12 @@
   if(availabilityBackdrop){
     availabilityBackdrop.addEventListener('click', closeAvailability);
   }
+  document.querySelectorAll('.open-availability').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      openAvailability();
+    });
+  });
 
   const menuTrigger = document.getElementById('menuTrigger');
   const mobileMenu = document.getElementById('mobileMenu');
