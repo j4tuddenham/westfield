@@ -400,6 +400,38 @@
     font:inherit; color:rgba(239,233,220,0.55);
     text-decoration:underline; text-underline-offset:2px;
   }
+  .privacy-note .cookie-settings-trigger{
+    background:none; border:none; padding:0; margin:0; cursor:pointer;
+    font:inherit; color:rgba(239,233,220,0.55);
+    text-decoration:underline; text-underline-offset:2px;
+  }
+
+  .cookie-banner{
+    position:fixed; left:0; right:0; bottom:0; z-index:100;
+    background:var(--slate-deep); color:var(--stone);
+    border-top:1px solid rgba(212,175,55,0.3);
+    box-shadow:0 -16px 40px -20px rgba(0,0,0,0.6);
+    padding:1.2rem 6vw;
+    display:none;
+    align-items:center; justify-content:center; gap:1.4rem;
+    flex-wrap:wrap; text-align:center;
+  }
+  .cookie-banner.is-visible{display:flex;}
+  .cookie-banner p{
+    font-size:0.85rem; font-weight:300; max-width:560px;
+    color:rgba(239,233,220,0.85); margin:0;
+  }
+  .cookie-banner a{color:var(--gold); text-decoration:underline; text-underline-offset:2px;}
+  .cookie-banner-actions{display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center;}
+  .cookie-banner-actions button{
+    border:none; cursor:pointer; font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase;
+    padding:0.65rem 1.1rem; transition:background .2s ease, opacity .2s ease;
+  }
+  .cookie-accept{background:var(--gold); color:var(--slate-deep);}
+  .cookie-accept:hover{background:#e0b64a;}
+  .cookie-reject{background:transparent; color:var(--stone); border:1px solid rgba(239,233,220,0.35) !important;}
+  .cookie-reject:hover{opacity:0.8;}
 
   .modal-overlay{
     position:fixed; inset:0; z-index:90;
@@ -1094,7 +1126,15 @@
 </footer>
 
 <div class="privacy-note">
-  <p>When you submit your email address above, it's stored securely and used only to send you occasional updates and offers about Westfield. It is not shared with or sold to third parties. You can <button type="button" class="privacy-unsub-trigger" id="unsubTrigger">unsubscribe</button> at any time.</p>
+  <p>When you submit your email address above, it's stored securely and used only to send you occasional updates and offers about Westfield. It is not shared with or sold to third parties. You can <button type="button" class="privacy-unsub-trigger" id="unsubTrigger">unsubscribe</button> at any time. This site also uses Google Analytics cookies to understand how visitors use the site, but only once you've given consent. You can change your choice anytime via <button type="button" class="cookie-settings-trigger" id="cookieSettingsTrigger">cookie settings</button>.</p>
+</div>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use cookies to run Google Analytics, which helps us understand how visitors use this site. These aren't set until you accept. See our privacy note above for more on how we handle your data.</p>
+  <div class="cookie-banner-actions">
+    <button type="button" class="cookie-reject" id="cookieReject">Reject</button>
+    <button type="button" class="cookie-accept" id="cookieAccept">Accept</button>
+  </div>
 </div>
 
 <div class="modal-overlay" id="unsubOverlay">
@@ -1154,6 +1194,60 @@
 </div>
 
 <script>
+  // Google Analytics is only loaded after the user consents — see the
+  // cookie banner below. Nothing analytics-related runs before that.
+  function loadGoogleAnalytics(){
+    if(window.gaLoaded) return;
+    window.gaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RP1K0VXQ7T';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-RP1K0VXQ7T');
+  }
+
+  const cookieBanner = document.getElementById('cookieBanner');
+  const cookieAccept = document.getElementById('cookieAccept');
+  const cookieReject = document.getElementById('cookieReject');
+  const cookieSettingsTrigger = document.getElementById('cookieSettingsTrigger');
+
+  function showCookieBanner(){
+    if(cookieBanner) cookieBanner.classList.add('is-visible');
+  }
+  function hideCookieBanner(){
+    if(cookieBanner) cookieBanner.classList.remove('is-visible');
+  }
+
+  const cookieChoice = localStorage.getItem('cookie_consent');
+  if(cookieChoice === 'accepted'){
+    loadGoogleAnalytics();
+  } else if(cookieChoice !== 'rejected'){
+    showCookieBanner();
+  }
+
+  if(cookieAccept){
+    cookieAccept.addEventListener('click', function(){
+      localStorage.setItem('cookie_consent', 'accepted');
+      loadGoogleAnalytics();
+      hideCookieBanner();
+    });
+  }
+  if(cookieReject){
+    cookieReject.addEventListener('click', function(){
+      localStorage.setItem('cookie_consent', 'rejected');
+      hideCookieBanner();
+    });
+  }
+  if(cookieSettingsTrigger){
+    cookieSettingsTrigger.addEventListener('click', function(){
+      showCookieBanner();
+    });
+  }
+
   const els = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
