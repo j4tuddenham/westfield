@@ -171,7 +171,7 @@
     display:flex;
     align-items:flex-end;
   }
-  .hero-media{position:absolute; inset:0; z-index:0; overflow:hidden;}
+  .hero-media{position:absolute; inset:0; z-index:0; overflow:hidden; background:#fff;}
   .hero-img{
     position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover;
@@ -180,8 +180,7 @@
     opacity:0;
     transition:opacity 3.8s ease;
   }
-  .hero-img-a-bg{opacity:1; z-index:0; transform:scale(1);}
-  .hero-img-a{opacity:1; z-index:1; transform:scale(0.7);}
+  .hero-img-a{opacity:1; z-index:1; transform:scale(0.7); object-fit:contain;}
   .hero-img-a.is-fading{opacity:0;}
   .hero-img-b{z-index:2;}
   .hero-img-b.is-visible{opacity:1;}
@@ -912,7 +911,6 @@
 
 <section class="hero">
   <div class="hero-media">
-    <img class="hero-img hero-img-a-bg" src="images/logo.JPG" alt="" aria-hidden="true" loading="eager" decoding="async">
     <img class="hero-img hero-img-a" src="images/logo.JPG" alt="Westfield holiday cottage terrace near Ullswater in Watermillock" fetchpriority="high" loading="eager" decoding="async">
     <img class="hero-img hero-img-b" src="images/ullswater_panoramic.jpg" alt="Panoramic view of Ullswater and the Lake District fells near Watermillock" loading="eager" decoding="async">
   </div>
