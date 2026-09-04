@@ -198,7 +198,12 @@
     position:absolute; inset:0; z-index:3;
     background:linear-gradient(180deg, rgba(26,36,41,0.15) 0%, rgba(26,36,41,0.05) 35%, rgba(26,36,41,0.85) 100%);
   }
-  .hero-content{position:relative; z-index:4; padding:0 6vw 4.5rem; width:100%;}
+  .hero-content{
+    position:relative; z-index:4; padding:0 6vw 4.5rem; width:100%;
+    opacity:0; transform:translateY(48px);
+    transition:opacity 2.2s ease, transform 2.2s ease;
+  }
+  .hero-content.is-visible{opacity:1; transform:translateY(0);}
   .hero-content .eyebrow{color:var(--stone); margin-bottom:1.1rem;}
   .hero-content .eyebrow::before{background:var(--stone);}
   .hero h1{
@@ -1334,6 +1339,7 @@
 
   const heroImgA = document.querySelector('.hero-img-a');
   const heroImgB = document.querySelector('.hero-img-b');
+  const heroContentEl = document.querySelector('.hero-content');
   let heroTimers = [];
 
   function clearHeroTimers(){
@@ -1348,6 +1354,7 @@
     // reset both images to their starting state
     heroImgB.classList.remove('is-visible', 'is-zooming');
     heroImgA.classList.remove('is-zooming', 'is-fading');
+    if(heroContentEl) heroContentEl.classList.remove('is-visible');
     void heroImgA.offsetWidth; // force reflow so the animation can restart
     void heroImgB.offsetWidth;
 
@@ -1357,10 +1364,13 @@
     heroImgA.classList.add('is-zooming');
 
     // phase 2: crossfade begins well before image A's zoom finishes, so the two
-    // motions overlap — A fades out while B fades in and starts its own zoom
+    // motions overlap — A fades out while B fades in and starts its own zoom.
+    // The hero text floats up into place at the same moment, so the whole
+    // reveal — image and text — feels like one connected motion.
     heroTimers.push(setTimeout(()=>{
       heroImgA.classList.add('is-fading');
       heroImgB.classList.add('is-visible', 'is-zooming');
+      if(heroContentEl) heroContentEl.classList.add('is-visible');
     }, CROSSFADE_START_MS));
   }
 
