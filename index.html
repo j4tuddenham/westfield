@@ -984,29 +984,55 @@
 {
   "@context": "https://schema.org",
   "@type": "VacationRental",
+  "additionalType": "Cottage",
   "name": "Westfield",
   "description": "3-bedroom holiday cottage near Ullswater in Watermillock, Cumbria, sleeping up to 6 guests, with a private hot tub.",
   "url": "https://www.staywestfield.uk/",
-  "image": [
-    "https://www.staywestfield.uk/images/logo.JPG",
-    "https://www.staywestfield.uk/images/ullswater_panoramic.jpg"
-  ],
+  "identifier": "STAYWESTFIELD-001",
+  "latitude": "54.60639161407419",
+  "longitude": "-2.866286320468499",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Bennet Head",
     "addressLocality": "Watermillock",
     "addressRegion": "Cumbria",
+    "postalCode": "CA11",
     "addressCountry": "GB"
   },
-  "occupancy": { "@type": "QuantitativeValue", "value": 6 },
-  "numberOfBedrooms": 3,
-  "numberOfBathroomsTotal": 2,
-  "amenityFeature": [
-    { "@type": "LocationFeatureSpecification", "name": "Private hot tub", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Free private parking", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "EV charging", "value": true }
-  ]
+  "checkinTime": "16:00:00+00:00",
+  "checkoutTime": "10:00:00+00:00",
+  "knowsLanguage": ["en-GB"],
+  "image": [
+    "https://www.staywestfield.uk/images/westfield_front.jpg",
+    "https://www.staywestfield.uk/images/westfield_over_field.jpg",
+    "https://www.staywestfield.uk/images/front_door.jpg",
+    "https://www.staywestfield.uk/images/dining_view.jpg",
+    "https://www.staywestfield.uk/images/food_prep.jpg",
+    "https://www.staywestfield.uk/images/front_bedroom_neutral.jpg",
+    "https://www.staywestfield.uk/images/bathroom.jpg",
+    "https://www.staywestfield.uk/images/hot_tub_deck.jpg",
+    "https://www.staywestfield.uk/images/w_dog_bench.jpg"
+  ],
+  "containsPlace": {
+    "@type": "Accommodation",
+    "additionalType": "EntirePlace",
+    "occupancy": { "@type": "QuantitativeValue", "value": 6 },
+    "numberOfBedrooms": 3,
+    "numberOfBathroomsTotal": 2,
+    "numberOfRooms": 5,
+    "bed": [
+      { "@type": "BedDetails", "numberOfBeds": 1, "typeOfBed": "King" },
+      { "@type": "BedDetails", "numberOfBeds": 2, "typeOfBed": "Single" },
+      { "@type": "BedDetails", "numberOfBeds": 1, "typeOfBed": "Double" }
+    ],
+    "amenityFeature": [
+      { "@type": "LocationFeatureSpecification", "name": "hotTub", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "wifi", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "kitchen", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "tv", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "parkingType", "value": "Free" }
+    ]
+  }
 }
 </script>
 </head>
